@@ -15,9 +15,12 @@ class MainViewModel constructor(private val repository: MainRepository) : ViewMo
 
     val loading = MutableLiveData<Boolean>()
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        onError("Exception: $exception")
+    }
 
     fun getArticles() {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        job = CoroutineScope(Dispatchers.IO).launch(coroutineExceptionHandler) {
             val response = repository.getResponse()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {

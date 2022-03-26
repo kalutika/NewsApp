@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: MainFragmentBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: ArticleAdapter
-    private val retrofitService = RetrofitService.getInstance()
+    private lateinit var retrofitService: RetrofitService
 
     companion object {
         fun newInstance() = MainFragment()
@@ -34,6 +34,7 @@ class MainFragment : Fragment() {
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
 
+        retrofitService = RetrofitService.getInstance(requireActivity())
         viewModel = ViewModelProvider(
             requireActivity(),
             MyViewModelFactory(MainRepository(retrofitService))
