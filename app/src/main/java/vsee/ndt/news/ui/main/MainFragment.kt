@@ -56,6 +56,10 @@ class MainFragment : Fragment() {
             fetchNewData()
         }
 
+        binding.btnSearch.setOnClickListener {
+            search(binding.etSearch.text.toString())
+        }
+
         return binding.root
     }
 
@@ -76,5 +80,10 @@ class MainFragment : Fragment() {
     private fun fetchNewData() {
         adapter.clear()
         viewModel.getArticles()
+    }
+
+    private fun search(text: String) {
+        adapter.clear()
+        viewModel.search(text)
     }
 }

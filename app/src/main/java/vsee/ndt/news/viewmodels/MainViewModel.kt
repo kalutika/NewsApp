@@ -33,6 +33,20 @@ class MainViewModel constructor(private val repository: MainRepository) : ViewMo
         }
     }
 
+    fun search(text: String) {
+        job = CoroutineScope(Dispatchers.IO).launch(coroutineExceptionHandler) {
+            val response = repository.getResponse(text)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    articleList.postValue(response.body()?.articleList)
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+    }
+
     private fun onError(message: String) {
         errorMessage.value = message
         loading.value = false

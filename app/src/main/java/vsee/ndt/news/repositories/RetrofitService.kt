@@ -12,6 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import vsee.ndt.news.models.ArticleResponse
 
 
@@ -19,9 +20,19 @@ interface RetrofitService {
     @GET("top-headlines?country=us&apiKey=$API_KEY")
     suspend fun getResponse(): Response<ArticleResponse>
 
+    //https://newsapi.org/v2/top-headlines?q=2022&country=us&apiKey=c31eee99753d4d97b56568e4c1a4186b
+    @GET("top-headlines")
+    suspend fun getResponse(
+        @Query("q") text: String,
+        @Query("country") country: String = COUNTRY,
+        @Query("apiKey") apiKey: String = API_KEY
+    ): Response<ArticleResponse>
+
     companion object {
         private const val URL = "https://newsapi.org/v2/"
         private const val API_KEY = "c31eee99753d4d97b56568e4c1a4186b"
+        private const val COUNTRY = "us"
+
         var retrofitService: RetrofitService? = null
         var okHttpClient: OkHttpClient? = null
 
