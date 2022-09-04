@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), OnDataPass {
     override fun onDataPass(data: String) {
         Log.d("NDT", "Data passed: $data")
         for(i in 1..10) {
-            Log.d("NDT", "aaaa $i")
+            Log.d("NDT", "i = $i")
         }
     }
 }
