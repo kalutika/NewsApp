@@ -1,5 +1,6 @@
 package vsee.ndt.news.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +24,19 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: ArticleAdapter
     private lateinit var retrofitService: RetrofitService
+    private lateinit var dataPasser: OnDataPass
 
     companion object {
         fun newInstance() = MainFragment()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        dataPasser = context as OnDataPass
+    }
+
+    fun passData(data: String) {
+        dataPasser.onDataPass(data)
     }
 
     override fun onCreateView(
@@ -85,5 +96,10 @@ class MainFragment : Fragment() {
     private fun search(text: String) {
         adapter.clear()
         viewModel.search(text)
+        passData(text)
     }
+}
+
+interface OnDataPass {
+    fun onDataPass(data: String);
 }
